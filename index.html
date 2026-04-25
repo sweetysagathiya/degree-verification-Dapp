@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decentralized Degree Verification</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+
+    <div class="glass-background"></div>
+
+    <header>
+        <div class="logo">
+            <span class="logo-icon">🎓</span> 
+            <span class="title">EduBlock Verify</span>
+        </div>
+        <button id="connectBtn" class="primary-btn">Connect Wallet</button>
+    </header>
+
+    <main class="container">
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-btn active" data-target="verify-section">Verify Degree</button>
+            <button class="tab-btn" data-target="issue-section">Issue Degree (Admin)</button>
+        </div>
+
+        <p class="status-msg" id="statusMessage">Please connect your wallet.</p>
+
+        <!-- VERIFY DEGREE SECTION -->
+        <section id="verify-section" class="card active">
+            <div class="card-header">
+                <h2>Verify a Certificate</h2>
+                <p>Enter the unique degree hash ID to verify authenticity.</p>
+            </div>
+            <div class="card-body">
+                <div class="input-group">
+                    <label for="verifyId">Degree ID (bytes32 hash)</label>
+                    <input type="text" id="verifyId" placeholder="0x123abc...">
+                </div>
+                <button id="verifyBtn" class="action-btn">
+                    <span class="btn-text">Verify Document</span>
+                    <div class="loader hidden"></div>
+                </button>
+
+                <div id="verifyResult" class="result-box hidden">
+                    <h3>✅ Authentic Degree Found</h3>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <span class="label">Student Name:</span>
+                            <span class="value" id="resStudent"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Course:</span>
+                            <span class="value" id="resCourse"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Institution:</span>
+                            <span class="value" id="resUniversity"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Issue Date:</span>
+                            <span class="value" id="resDate"></span>
+                        </div>
+                    </div>
+                </div>
+                <div id="verifyError" class="error-box hidden">
+                    ❌ Invalid or non-existent degree ID.
+                </div>
+            </div>
+        </section>
+
+        <!-- ISSUE DEGREE SECTION (Admin Only) -->
+        <section id="issue-section" class="card hidden">
+            <div class="card-header">
+                <h2>Issue New Degree</h2>
+                <p>University administrators only. Deploys to blockchain.</p>
+            </div>
+            <div class="card-body">
+                <form id="issueForm">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="studentName">Student Full Name</label>
+                            <input type="text" id="studentName" placeholder="Jane Doe" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="courseName">Course / Major</label>
+                            <input type="text" id="courseName" placeholder="B.S. Computer Science" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="university">Institution Name</label>
+                            <input type="text" id="university" placeholder="Global Tech University" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="issueDate">Date of Graduation</label>
+                            <input type="date" id="issueDate" required>
+                        </div>
+                    </div>
+                    <button type="submit" id="issueBtn" class="action-btn admin-btn">
+                        <span class="btn-text">Mint Degree Certificate</span>
+                        <div class="loader hidden"></div>
+                    </button>
+                </form>
+
+                <div id="issueSuccess" class="success-box hidden">
+                    <h3>🎉 Degree Issued Successfully!</h3>
+                    <p>Provide this unique ID to the student:</p>
+                    <div class="hash-box">
+                        <code id="issuedHash">0x...</code>
+                        <button class="copy-btn" id="copyBtn" title="Copy to clipboard">📋</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
